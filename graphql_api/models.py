@@ -19,7 +19,6 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique=True)
     description = models.TextField(blank=True)
-    # category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     category = models.CharField(max_length=255)
     price = models.IntegerField()
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
@@ -31,7 +30,7 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
