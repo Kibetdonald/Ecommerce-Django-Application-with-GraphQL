@@ -59,7 +59,19 @@ Get All Products
 ![Query](https://user-images.githubusercontent.com/50916200/223346459-13de1680-4804-4546-b4ab-c6745c85f76e.JPG)
 
 ### GraphQL API
-The application includes a GraphQL API that allows developers to query and mutate data. The API is located at http://localhost:8000/graphql.
+The application includes a GraphQL API that allows developers to query and mutate data. The endpoints include:
+
+Products
+
+ - http://127.0.0.1:8000/api/products
+ 
+ Categories
+ 
+ - http://127.0.0.1:8000/api/category
+ 
+ Orders
+ 
+  - http://127.0.0.1:8000/api/order
 
 Here are some example queries and mutations that you can use with the API:
 
