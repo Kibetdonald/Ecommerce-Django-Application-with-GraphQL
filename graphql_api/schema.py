@@ -1,18 +1,27 @@
 import graphene
 from graphene_django import DjangoObjectType
-from .models import Product
+from .models import Product, Category
 
 class ProductType(DjangoObjectType):
     class Meta:
         model = Product
         fields = '__all__'
+class CategoryType(DjangoObjectType):
+    class Meta:
+        model = Category
+        fields = '__all__'
 
 class Query(graphene.ObjectType):
-    products = graphene.List(ProductType)
+    all_products = graphene.List(ProductType)
+    all_categories = graphene.List(CategoryType)
 
-    def resolve_products(self, info):
+    def resolve_all_products(self, info):
         return Product.objects.all()
- 
+
+    def resolve_all_categories(self, info):
+        return Category.objects.all()
+
+#  Products Mutation
 class CreateProductMutation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
@@ -30,7 +39,21 @@ class CreateProductMutation(graphene.Mutation):
         product.save()
         return CreateProductMutation(product=product)
 
+# Category Mutation
+class CreateCategoryMutation(graphene.Mutation):
+    class Arguments:
+        name = graphene.String(required=True)
+        description = graphene.String(required=True)
+    
+    category = graphene.Field(CategoryType)
+
+    def mutate(self, info, name, description):
+        category = Category(name=name, description=description)
+        category.save()
+        return CreateCategoryMutation(category=category)
+
 class Mutation(graphene.ObjectType):
     create_product = CreateProductMutation.Field()
+    create_category = CreateCategoryMutation.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
